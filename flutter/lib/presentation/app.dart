@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20)
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -27,29 +27,25 @@ class MyApp extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          // icon
                           CircleAvatar(
                             radius: 30,
-                            child: Icon(Icons.shopping_bag, color: Colors.teal,),
+                            child: Icon(Icons.shopping_bag, color: Colors.teal),
                           ),
                           SizedBox(height: 20),
-                          // title
                           Text(
                             "Welcome Back",
                             style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          // text
                           Text(
                             "Please enter your details",
-                            style: TextStyle(
-                                fontSize: 16
-                            ),)
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
 
@@ -59,7 +55,7 @@ class MyApp extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12)
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       children: [
@@ -69,24 +65,90 @@ class MyApp extends StatelessWidget {
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(8)
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             margin: EdgeInsets.all(4),
                             child: Text(
-                              "Login"
+                              "Login",
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
                         ),
                         Expanded(
-                            child: Container(
-                                alignment: Alignment.center,
-                                child: Text("Sign Up")
-                            )
-                        )
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  )
+                  ),
+
+                  const SizedBox(height: 24),
+
                   // auth form
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          bottom: 8
+                        ),
+                        child: Text("Username", style: TextStyle(fontSize: 16)),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "johndoe123",
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade200),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          bottom: 8
+                        ),
+                        child: Text("Password", style: TextStyle(fontSize: 16)),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "••••••••",
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade200),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16
+                          ),
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: Colors.tealAccent[700],
+                              fontSize: 16
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(value: false, onChanged: (value) {}),
+                          Text("Use biometrics for faster login")
+                        ],
+                      )
+                    ],
+                  ),
                   // social auth
                   // footer
                 ],
