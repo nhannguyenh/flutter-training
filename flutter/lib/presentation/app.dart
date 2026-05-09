@@ -41,17 +41,51 @@ class MyApp extends StatelessWidget {
                                 fontWeight: FontWeight.bold
                             ),
                           ),
+                          const SizedBox(height: 8),
+                          // text
                           Text(
                             "Please enter your details",
                             style: TextStyle(
                                 fontSize: 16
                             ),)
-                          // text
                         ],
                       )
                     ],
-                  )
+                  ),
+
+                  const SizedBox(height: 24),
+
                   // nav
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8)
+                            ),
+                            margin: EdgeInsets.all(4),
+                            child: Text(
+                              "Login"
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            child: Container(
+                                alignment: Alignment.center,
+                                child: Text("Sign Up")
+                            )
+                        )
+                      ],
+                    ),
+                  )
                   // auth form
                   // social auth
                   // footer
