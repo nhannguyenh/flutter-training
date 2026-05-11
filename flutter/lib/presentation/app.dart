@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           child: Center(
             child: Container(
               margin: EdgeInsets.only(top: 50),
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // nav
                   Container(
@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // auth form
                   Column(
@@ -151,11 +151,16 @@ class MyApp extends StatelessWidget {
                       Row(
                         children: [
                           Checkbox(value: false, onChanged: (value) {}),
-                          Text("Use biometrics for faster login")
+                          Text(
+                            "Use biometrics for faster login",
+                            style: TextStyle(
+                              fontSize: 16
+                            ),
+                          )
                         ],
                       ),
 
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       
                       // sign in button
                       SizedBox(
@@ -173,14 +178,14 @@ class MyApp extends StatelessWidget {
                             "Sign In",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       
                       // biometrics sign in button
                       SizedBox(
@@ -197,7 +202,7 @@ class MyApp extends StatelessWidget {
                             "Sign in with Biometrics",
                             style: TextStyle(
                               color: primaryColor,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -212,7 +217,82 @@ class MyApp extends StatelessWidget {
                       )
                     ],
                   ),
+
+                  SizedBox(height: 24),
+
                   // social auth
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8
+                        ),
+                        child: Text(
+                          "Or continue with",
+                          style: TextStyle(
+                            fontSize: 16
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Divider(color: Colors.grey.shade300))
+                    ],
+                  ),
+
+                  SizedBox(height: 16),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: (){},
+                          label: Text(
+                            "Google",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.g_mobiledata,
+                            size: 32
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.grey.shade300),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)
+                            )
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: (){},
+                          label: Text(
+                            "Facebook",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.facebook,
+                            size: 22,
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.grey.shade300),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)
+                            )
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                   // footer
                 ],
               ),
