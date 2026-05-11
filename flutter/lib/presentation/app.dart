@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
+  static const Color primaryColor = Color(0xFF00E5FF);
+
   const MyApp({super.key});
 
   @override
@@ -28,8 +30,13 @@ class MyApp extends StatelessWidget {
                       Column(
                         children: [
                           CircleAvatar(
+                            backgroundColor: Colors.cyan[50],
                             radius: 30,
-                            child: Icon(Icons.shopping_bag, color: Colors.teal),
+                            child: Icon(
+                              Icons.shopping_bag,
+                              color: primaryColor,
+                              size: 32,
+                            ),
                           ),
                           SizedBox(height: 20),
                           Text(
@@ -135,7 +142,7 @@ class MyApp extends StatelessWidget {
                           child: Text(
                             "Forgot Password?",
                             style: TextStyle(
-                              color: Colors.tealAccent[700],
+                              color: primaryColor,
                               fontSize: 16
                             ),
                           ),
@@ -146,6 +153,62 @@ class MyApp extends StatelessWidget {
                           Checkbox(value: false, onChanged: (value) {}),
                           Text("Use biometrics for faster login")
                         ],
+                      ),
+
+                      const SizedBox(height: 8),
+                      
+                      // sign in button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)
+                            )
+                          ),
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+                      
+                      // biometrics sign in button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton.icon(
+                          onPressed: (){},
+                          icon: Icon(
+                            Icons.fingerprint,
+                            size: 24,
+                            color: primaryColor
+                          ),
+                          label: Text(
+                            "Sign in with Biometrics",
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: primaryColor),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
