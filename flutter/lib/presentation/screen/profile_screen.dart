@@ -23,10 +23,16 @@ class ProfileScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined)),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 8),
             // Avatar section
             Center(
               child: Container(
@@ -35,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                 margin: EdgeInsets.only(
                   left: 16,
                   right: 16,
-                  top: 8,
+                  top: 16,
                   bottom: 8
                 ),
                 decoration: BoxDecoration(
@@ -47,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                     Stack(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(top: 32),
+                          padding: EdgeInsets.only(top: 16),
                           child: CircleAvatar(
                             backgroundColor: Colors.orange.shade100,
                             radius: 50,
@@ -119,7 +125,12 @@ class ProfileScreen extends StatelessWidget {
 
             // Account Detail
             Container(
-              margin: EdgeInsets.all(16),
+              margin: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 8,
+                bottom: 16
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12)
@@ -247,7 +258,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 8, left: 32),
+                    padding: EdgeInsets.only(top: 8, left: 32, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "28",
@@ -258,6 +269,63 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            
+            // Order History
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.shopping_bag_outlined,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                ),
+                title: Text(
+                  "Order History",
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                onTap: () {},
+              ),
+            ),
+
+            // Logout
+            Container(
+              margin: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.logout,
+                    color: Colors.red,
+                    size: 20,
+                  ),
+                ),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {},
               ),
             )
           ],
