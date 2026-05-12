@@ -24,6 +24,8 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2,
+        selectedItemColor: AppColors.primaryColor,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
@@ -131,6 +133,7 @@ class ProfileScreen extends StatelessWidget {
                 top: 8,
                 bottom: 16
               ),
+              padding: EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12)
@@ -202,135 +205,101 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 16),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "FIRST NAME",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: AppFontSizes.fontSize_14
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 32),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "John",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: AppFontSizes.fontSize_16
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 16),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "LAST NAME",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: AppFontSizes.fontSize_14
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 32),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Doe",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: AppFontSizes.fontSize_16
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 16),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "AGE",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: AppFontSizes.fontSize_14
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 8, left: 32, bottom: 16),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "28",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: AppFontSizes.fontSize_16
-                      ),
-                    ),
-                  ),
+                  _buildPersonalInfoField("FIRST NAME", "John"),
+                  _buildPersonalInfoField("LAST NAME", "Doe"),
+                  _buildPersonalInfoField("AGE", "28"),
                 ],
               ),
             ),
             
             // Order History
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+            _buildActionList(
+              EdgeInsets.only(left: 16, right: 16),
+              Icon(
+                Icons.shopping_bag_outlined,
+                color: Colors.black,
+                size: 20,
               ),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    Icons.shopping_bag_outlined,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
-                title: Text(
-                  "Order History",
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-                onTap: () {},
+              Text(
+                "Order History",
+                style: TextStyle(fontWeight: FontWeight.w500),
               ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey
+              )
             ),
 
             // Logout
-            Container(
-              margin: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+            _buildActionList(
+              EdgeInsets.all(16),
+              Icon(
+                Icons.logout,
+                color: Colors.red,
+                size: 20
               ),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    Icons.logout,
-                    color: Colors.red,
-                    size: 20,
-                  ),
-                ),
-                title: Text(
-                  "Logout",
-                  style: TextStyle(color: Colors.red),
-                ),
-                onTap: () {},
+              Text(
+                "Logout",
+                style: TextStyle(color: Colors.red),
               ),
+              null
             )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildActionList(EdgeInsets? margin, Icon leadingIcon, Text title, Icon? trailingIcon) {
+    return Container(
+      margin: margin,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        leading: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: leadingIcon,
+        ),
+        title: title,
+        trailing: trailingIcon,
+        onTap: () {},
+      ),
+    );
+  }
+
+  Widget _buildPersonalInfoField(String label, String value) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.only(top: 8, left: 16),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            label,
+            style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: AppFontSizes.fontSize_14
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 8, left: 32),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            value,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: AppFontSizes.fontSize_16
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
