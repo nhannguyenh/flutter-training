@@ -28,6 +28,7 @@ class ProductCatalogScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Search
               TextField(
@@ -56,10 +57,26 @@ class ProductCatalogScreen extends StatelessWidget {
                     _buildProductCatalogItem("All Items", true),
                     _buildProductCatalogItem("Electronics", false),
                     _buildProductCatalogItem("Fashion", false),
-                    _buildProductCatalogItem("Home and Kitchen", false)
+                    _buildProductCatalogItem("Beauty", false)
                   ],
                 ),
-              )
+              ),
+
+              SizedBox(height: 32),
+
+              // Product List
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.7,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) => _buildProductCard(),
+              ),
             ],
           ),
         ),
@@ -96,6 +113,78 @@ class ProductCatalogScreen extends StatelessWidget {
             fontWeight: isSelected? FontWeight.bold : FontWeight.normal
         ),
       ),
+    );
+  }
+
+  Widget _buildProductCard() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    "https://placehold.net/400x400.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.grey,
+                  child: Icon(Icons.favorite_border, size: 20),
+                )
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Text(
+            "Glow Essentials Kit",
+            style: TextStyle(
+              fontSize: AppFontSizes.fontSize_14,
+              fontWeight: FontWeight.w500
+            ),
+          ),
+        ),
+        Text(
+          "Beauty",
+          style: TextStyle(color: Colors.grey),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                "\$45.00",
+                style: TextStyle(
+                  fontSize: AppFontSizes.fontSize_18,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(12)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(Icons.add),
+              )
+            )
+          ],
+        )
+      ],
     );
   }
 }
