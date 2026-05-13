@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/presentation/config/app_colors.dart';
-import 'package:shopping_app/presentation/config/app_font_sizes.dart';
+
+import '../configs/app_colors.dart';
+import '../configs/app_font_sizes.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
