@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/presentation/config/app_colors.dart';
+import 'package:shopping_app/presentation/config/app_font_sizes.dart';
 
 class ProductCatalogScreen extends StatelessWidget {
   const ProductCatalogScreen({super.key});
@@ -14,7 +15,8 @@ class ProductCatalogScreen extends StatelessWidget {
         title: Text(
           "Discover",
           style: TextStyle(
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
+            fontSize: AppFontSizes.fontSize_24
           ),
         ),
         actions: [
@@ -41,6 +43,22 @@ class ProductCatalogScreen extends StatelessWidget {
                   fillColor: Colors.grey.shade100,
                   filled: true
                 ),
+              ),
+
+              SizedBox(height: 16),
+
+              // Product Catalog
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _buildProductCatalogItem("All Items", true),
+                    _buildProductCatalogItem("Electronics", false),
+                    _buildProductCatalogItem("Fashion", false),
+                    _buildProductCatalogItem("Home and Kitchen", false)
+                  ],
+                ),
               )
             ],
           ),
@@ -59,6 +77,24 @@ class ProductCatalogScreen extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.favorite_outline), label: "Saved"),
           BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: "Profile")
         ]
+      ),
+    );
+  }
+
+  Widget _buildProductCatalogItem(String catalogName, bool isSelected) {
+    return Container(
+      decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryColor : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(12)
+      ),
+      margin: EdgeInsets.only(right: 10),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+      child: Text(
+        catalogName,
+        style: TextStyle(
+            fontSize: AppFontSizes.fontSize_16,
+            fontWeight: isSelected? FontWeight.bold : FontWeight.normal
+        ),
       ),
     );
   }
