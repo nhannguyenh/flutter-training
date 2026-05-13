@@ -26,6 +26,20 @@ class OrderHistoryScreen extends StatelessWidget {
             )
           ],
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          currentIndex: 2,
+          selectedItemColor: Colors.teal.shade800,
+          unselectedItemColor: Colors.grey,
+          unselectedLabelStyle: TextStyle(color: Colors.grey),
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Explore"),
+            BottomNavigationBarItem(icon: Icon(Icons.event_note_rounded), label: "Orders"),
+            BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: "Profile")
+          ]
+        ),
       )
     );
   }
