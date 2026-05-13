@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/presentation/config/app_font_sizes.dart';
+import 'package:shopping_app/presentation/widgets/order_history_button.dart';
+import 'package:shopping_app/presentation/widgets/order_history_cart.dart';
+
+import '../configs/app_font_sizes.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
   const OrderHistoryScreen({super.key});
@@ -39,7 +42,7 @@ class OrderHistoryScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Center(child: Text("All Orders")),
+            _buildOrderList(),
             Center(child: Text("Ongoing")),
             Center(child: Text("Completed")),
             Center(child: Text("Cancelled"))
@@ -60,6 +63,59 @@ class OrderHistoryScreen extends StatelessWidget {
           ]
         ),
       )
+    );
+  }
+
+  Widget _buildOrderList() {
+    return Container(
+      color: Colors.grey.shade200,
+      child: ListView(
+        padding: EdgeInsets.all(16),
+        children: [
+          Column(
+            spacing: 16,
+            children: [
+              OrderHistoryCart(
+                orderId: "#ORD-92034",
+                orderStatus: "DELIVERED",
+                imageUrl: "https://placehold.net/400x400.png",
+                date: "Placed on Oct 24, 2023",
+                price: 128.50,
+                buttons: [
+                  OrderHistoryButton(title: "Reorder", isPrimary: true),
+                  OrderHistoryButton(title: "View Details", isPrimary: false)
+                ],
+              ),
+              OrderHistoryCart(
+                orderId: "#ORD-88120",
+                orderStatus: "SHIPPED",
+                imageUrl: "https://placehold.net/400x400.png",
+                date: "Expected by Oct 28, 2023",
+                price: 45.00,
+                buttons: [
+                  OrderHistoryButton(
+                    title: "Track Order",
+                    isPrimary: true,
+                    icon: Icons.local_shipping_outlined,
+                  ),
+                ],
+                showMore: true,
+              ),
+              OrderHistoryCart(
+                orderId: "#ORD-77541",
+                orderStatus: "DELIVERED",
+                imageUrl: "https://placehold.net/400x400.png",
+                date: "Delivered on Sep 15, 2023",
+                price: 210.00,
+                buttons: [
+                  OrderHistoryButton(title: "Leave Review", isPrimary: false),
+                  OrderHistoryButton(title: "Buy Again", isPrimary: false)
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
