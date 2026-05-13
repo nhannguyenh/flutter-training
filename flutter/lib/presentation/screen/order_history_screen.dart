@@ -25,6 +25,25 @@ class OrderHistoryScreen extends StatelessWidget {
               icon: Icon(Icons.search, size:28)
             )
           ],
+          bottom: TabBar(
+            unselectedLabelColor: Colors.grey.shade600,
+            labelColor: Colors.teal.shade800,
+            indicatorColor: Colors.teal.shade800,
+            tabs: [
+              Tab(text: "All Orders"),
+              Tab(text: "Ongoing"),
+              Tab(text: "Completed"),
+              Tab(text: "Cancelled"),
+            ]
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Center(child: Text("All Orders")),
+            Center(child: Text("Ongoing")),
+            Center(child: Text("Completed")),
+            Center(child: Text("Cancelled"))
+          ]
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
