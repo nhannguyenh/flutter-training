@@ -22,6 +22,30 @@ class ProductCatalogScreen extends StatelessWidget {
           IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart_outlined))
         ],
       ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Search
+              TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(CupertinoIcons.search),
+                  prefixIconColor: Colors.grey,
+                  hintText: "Search products, brands...",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none
+                  ),
+                  fillColor: Colors.grey.shade100,
+                  filled: true
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
