@@ -9,190 +9,192 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 50),
-            padding: EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                // header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.cyan.shade50,
-                          radius: 30,
-                          child: Icon(
-                            Icons.shopping_bag,
-                            color: AppColors.primaryColor,
-                            size: 32,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          "Welcome Back",
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Please enter your details",
-                          style: TextStyle(fontSize: AppFontSizes.fontSize_16),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 24),
-
-                // nav
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
+      backgroundColor: Colors.grey.shade100,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(child: _buildTabButton("Login", true)),
-                      Expanded(child: _buildTabButton("Sign Up", false))
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.cyan.shade50,
+                            radius: 30,
+                            child: Icon(
+                              Icons.shopping_bag,
+                              color: AppColors.primaryColor,
+                              size: 32,
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            "Welcome Back",
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Please enter your details",
+                            style: TextStyle(fontSize: AppFontSizes.fontSize_16),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ),
-
-                SizedBox(height: 16),
-
-                // auth form
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTextField("Username", "johndoe123"),
-                    _buildTextField("Password", "••••••••"),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 16),
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: AppFontSizes.fontSize_16,
-                          ),
-                        ),
-                      ),
+        
+                  SizedBox(height: 24),
+        
+                  // nav
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    Row(
+                    child: Row(
                       children: [
-                        Checkbox(value: false, onChanged: (value) {}),
-                        Text(
-                          "Use biometrics for faster login",
-                          style: TextStyle(fontSize: AppFontSizes.fontSize_16),
-                        ),
+                        Expanded(child: _buildTabButton("Login", true)),
+                        Expanded(child: _buildTabButton("Sign Up", false))
                       ],
                     ),
-
-                    SizedBox(height: 8),
-
-                    // sign in button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: AppFontSizes.fontSize_18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 16),
-
-                    // biometrics sign in button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.fingerprint,
-                          size: 24,
-                          color: AppColors.primaryColor,
-                        ),
-                        label: Text(
-                          "Sign in with Biometrics",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: AppFontSizes.fontSize_18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: AppColors.primaryColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-
-                SizedBox(height: 24),
-
-                // social auth
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: Colors.grey.shade300)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "Or continue with",
-                        style: TextStyle(fontSize: AppFontSizes.fontSize_16),
-                      ),
-                    ),
-                    Expanded(child: Divider(color: Colors.grey.shade300)),
-                  ],
-                ),
-
-                SizedBox(height: 16),
-
-                Row(
-                  spacing: 16,
-                  children: [
-                    _buildSocialButton("Google", Icon(Icons.g_mobiledata, size: 32)),
-                    _buildSocialButton("Facebook", Icon(Icons.facebook, size: 22, color: Colors.black)),
-                  ],
-                ),
-
-                SizedBox(height: 16),
-
-                // footer
-                Center(
-                  child: Text(
-                    "By continuing, you agree to our Terms of Service and Privacy Policy",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey),
                   ),
-                )
-              ],
+        
+                  SizedBox(height: 8),
+        
+                  // auth form
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTextField("Username", "johndoe123"),
+                      _buildTextField("Password", "••••••••"),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: AppFontSizes.fontSize_16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(value: false, onChanged: (value) {}),
+                          Text(
+                            "Use biometrics for faster login",
+                            style: TextStyle(fontSize: AppFontSizes.fontSize_16),
+                          ),
+                        ],
+                      ),
+        
+                      SizedBox(height: 8),
+        
+                      // sign in button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: AppFontSizes.fontSize_18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+        
+                      SizedBox(height: 16),
+        
+                      // biometrics sign in button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.fingerprint,
+                            size: 24,
+                            color: AppColors.primaryColor,
+                          ),
+                          label: Text(
+                            "Sign in with Biometrics",
+                            style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: AppFontSizes.fontSize_18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: AppColors.primaryColor),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+        
+                  SizedBox(height: 24),
+        
+                  // social auth
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          "Or continue with",
+                          style: TextStyle(fontSize: AppFontSizes.fontSize_16),
+                        ),
+                      ),
+                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                    ],
+                  ),
+        
+                  SizedBox(height: 16),
+        
+                  Row(
+                    spacing: 16,
+                    children: [
+                      _buildSocialButton("Google", Icon(Icons.g_mobiledata, size: 32)),
+                      _buildSocialButton("Facebook", Icon(Icons.facebook, size: 22, color: Colors.black)),
+                    ],
+                  ),
+        
+                  SizedBox(height: 16),
+        
+                  // footer
+                  Center(
+                    child: Text(
+                      "By continuing, you agree to our Terms of Service and Privacy Policy",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -228,7 +230,7 @@ class LoginScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 16, bottom: 8),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: Text(title, style: TextStyle(fontSize: AppFontSizes.fontSize_16)),
         ),
         TextField(
