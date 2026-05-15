@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/presentation/configs/app_font_sizes.dart';
+import 'package:shopping_app/presentation/routes/routers.dart';
 
 import '../configs/app_colors.dart';
 
@@ -52,9 +53,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-        
+
                   SizedBox(height: 24),
-        
+
                   // nav
                   Container(
                     decoration: BoxDecoration(
@@ -68,9 +69,9 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-        
+
                   SizedBox(height: 8),
-        
+
                   // auth form
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,15 +100,20 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-        
+
                       SizedBox(height: 8),
-        
+
                       // sign in button
                       SizedBox(
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRouter.productRoute
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -122,9 +128,9 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-        
+
                       SizedBox(height: 16),
-        
+
                       // biometrics sign in button
                       SizedBox(
                         width: double.infinity,
@@ -155,9 +161,9 @@ class LoginScreen extends StatelessWidget {
                       )
                     ],
                   ),
-        
+
                   SizedBox(height: 24),
-        
+
                   // social auth
                   Row(
                     children: [
@@ -172,9 +178,9 @@ class LoginScreen extends StatelessWidget {
                       Expanded(child: Divider(color: Colors.grey.shade300)),
                     ],
                   ),
-        
+
                   SizedBox(height: 16),
-        
+
                   Row(
                     spacing: 16,
                     children: [
@@ -182,9 +188,9 @@ class LoginScreen extends StatelessWidget {
                       _buildSocialButton("Facebook", Icon(Icons.facebook, size: 22, color: Colors.black)),
                     ],
                   ),
-        
+
                   SizedBox(height: 16),
-        
+
                   // footer
                   Center(
                     child: Text(

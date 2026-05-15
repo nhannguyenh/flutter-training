@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_app/presentation/routes/routers.dart';
 import 'package:shopping_app/presentation/screens/login_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -8,7 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen()
+      home: LoginScreen(),
+      routes: AppRouter.routes,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }
