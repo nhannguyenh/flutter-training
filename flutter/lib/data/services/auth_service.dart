@@ -1,34 +1,26 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-import '../../presentation/routes/routes.dart';
+import 'package:shopping_app/networking/network_client.dart';
 
 class AuthService {
-  static Future<void> login(BuildContext context, String username, String password) async {
-    final url = Uri.parse("http://10.0.2.2:3000/login");
-
+  static Future<bool> login(BuildContext context, String username, String password) async {
     try {
-      final res = await http.post(
-          url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            'username': username,
-            'password': password,
-          })
+      if (username.isEmpty || password.isEmpty) {
+        return false;
+      }
+      final res = await NetworkClient.instance.post(
+        "/login",
+        data: {
+          "username": username,
+          "password": password,
+        }
       );
 
       if (res.statusCode == 200) {
-        final data = jsonEncode(res.body);
-        Navigator.pushReplacementNamed(context, AppRouter.productRoute);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid credentials!')),
-        );
+        return true;
       }
+      return false;
     } catch (e) {
-      print(e);
+      return false;
     }
   }
 }

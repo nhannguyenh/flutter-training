@@ -3,6 +3,7 @@ import 'package:shopping_app/data/services/auth_service.dart';
 
 import '../configs/app_colors.dart';
 import '../configs/app_font_sizes.dart';
+import '../routes/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -121,14 +122,24 @@ class LoginScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: () {
-                            String username = usernameController.text;
-                            String password = passwordController.text;
-
-                            if (username.isNotEmpty && password.isNotEmpty) {
-                              AuthService.login(context, username, password);
+                          onPressed: () async {
+                            bool isSuccess = await AuthService.login(
+                              context,
+                              usernameController.text,
+                              passwordController.text
+                            );
+                            if (isSuccess) {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                AppRouter.productRoute
+                              );
                             } else {
-                              // TODO
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Center(
+                                    child: Text("Invalid Credentials")
+                                  )
+                                )
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
