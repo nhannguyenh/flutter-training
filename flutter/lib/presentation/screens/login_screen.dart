@@ -1,18 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/data/services/auth_service.dart';
+import 'package:shopping_app/data/datasources/user_remote_datasource.dart';
+import 'package:shopping_app/data/repositories/user_repository.dart';
+import 'package:shopping_app/domain/usecases/login_usecase.dart';
+import 'package:shopping_app/networking/network_client.dart';
 
 import '../configs/app_colors.dart';
 import '../configs/app_font_sizes.dart';
 import '../routes/routes.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late bool _isLoading = false;
+
+  late final LoginUseCase _loginUseCase;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final dio = NetworkClient.instance;
+    final remoteDataSource = UserRemoteDatasource(dio);
+    final repository = UserRepository(remoteDataSource);
+    _loginUseCase = LoginUseCase(repository);
+  }
+
+  void _handleLogin() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final user = await _loginUseCase.login(_usernameController.text, _passwordController.text);
+      Navigator.pushReplacementNamed(context, AppRouter.productRoute);
+    } catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Center(
+            child: Text(e.toString())
+          )
+        )
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -83,13 +122,13 @@ class LoginScreen extends StatelessWidget {
                       _buildTextField(
                         "Username",
                         "johndoe123",
-                        usernameController,
+                        _usernameController,
                         false
                       ),
                       _buildTextField(
                         "Password",
                         "••••••••",
-                        passwordController,
+                        _passwordController,
                         true
                       ),
                       Align(
@@ -122,26 +161,7 @@ class LoginScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            bool isSuccess = await AuthService.login(
-                              context,
-                              usernameController.text,
-                              passwordController.text
-                            );
-                            if (isSuccess) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                AppRouter.productRoute
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Center(
-                                    child: Text("Invalid Credentials")
-                                  )
-                                )
-                              );
-                            }
-                          },
+                          onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
