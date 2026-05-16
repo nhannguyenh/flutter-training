@@ -22,6 +22,8 @@ import 'package:shopping_app/di/app_module.dart' as _i901;
 import 'package:shopping_app/domain/repositories/auth_repository_interface.dart'
     as _i90;
 import 'package:shopping_app/domain/usecases/login_usecase.dart' as _i983;
+import 'package:shopping_app/presentation/screens/login/bloc/login_bloc.dart'
+    as _i556;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -47,6 +49,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i983.LoginUseCase>(
       () => _i983.LoginUseCase(gh<_i90.IAuthRepository>()),
+    );
+    gh.factory<_i556.LoginBloc>(
+      () => _i556.LoginBloc(gh<_i983.LoginUseCase>()),
     );
     return this;
   }
