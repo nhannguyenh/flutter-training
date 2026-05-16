@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/data/datasources/user_remote_datasource.dart';
-import 'package:shopping_app/data/repositories/user_repository.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shopping_app/data/datasources/auth_local_datasource.dart';
+import 'package:shopping_app/data/datasources/auth_remote_datasource.dart';
+import 'package:shopping_app/data/repositories/auth_repository.dart';
 import 'package:shopping_app/domain/usecases/login_usecase.dart';
 import 'package:shopping_app/networking/network_client.dart';
 
@@ -27,8 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
 
     final dio = NetworkClient.instance;
-    final remoteDataSource = UserRemoteDatasource(dio);
-    final repository = UserRepository(remoteDataSource);
+    final storage = FlutterSecureStorage();
+    final remoteDataSource = AuthRemoteDatasource(dio);
+    final localDataSource = AuthLocalDatasource(storage);
+    final repository = AuthRepository(
+      remoteDatasource: remoteDataSource,
+      localDatasource: localDataSource
+    );
     _loginUseCase = LoginUseCase(repository);
   }
 
@@ -37,7 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final user = await _loginUseCase.login(_usernameController.text, _passwordController.text);
-      Navigator.pushReplacementNamed(context, AppRouter.productRoute);
+
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, AppRouter.productRoute);
+      }
     } catch(e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Center(

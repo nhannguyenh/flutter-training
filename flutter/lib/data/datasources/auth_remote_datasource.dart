@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:shopping_app/data/models/user_model.dart';
 
-abstract class IUserRemoteDatasource {
+abstract class IAuthRemoteDatasource {
   Future<UserModel> login(String username, String password);
 }
 
-class UserRemoteDatasource implements IUserRemoteDatasource {
+class AuthRemoteDatasource implements IAuthRemoteDatasource {
   final Dio dio;
 
-  UserRemoteDatasource(this.dio);
+  AuthRemoteDatasource(this.dio);
 
   @override
   Future<UserModel> login(String username, String password) async {

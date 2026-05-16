@@ -1,8 +1,8 @@
 import 'package:shopping_app/domain/entities/user.dart';
-import 'package:shopping_app/domain/repositories/user_repository_interface.dart';
+import 'package:shopping_app/domain/repositories/auth_repository_interface.dart';
 
 class LoginUseCase {
-  final IUserRepository repository;
+  final IAuthRepository repository;
 
   LoginUseCase(this.repository);
 
