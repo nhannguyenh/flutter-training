@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shopping_app/data/datasources/auth_local_datasource.dart';
-import 'package:shopping_app/data/datasources/auth_remote_datasource.dart';
-import 'package:shopping_app/data/repositories/auth_repository.dart';
+import 'package:shopping_app/di/injector.dart';
 import 'package:shopping_app/domain/usecases/login_usecase.dart';
-import 'package:shopping_app/networking/network_client.dart';
 
 import '../configs/app_colors.dart';
 import '../configs/app_font_sizes.dart';
@@ -27,16 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
-    final dio = NetworkClient.instance;
-    final storage = FlutterSecureStorage();
-    final remoteDataSource = AuthRemoteDatasource(dio);
-    final localDataSource = AuthLocalDatasource(storage);
-    final repository = AuthRepository(
-      remoteDatasource: remoteDataSource,
-      localDatasource: localDataSource
-    );
-    _loginUseCase = LoginUseCase(repository);
+    _loginUseCase = injector<LoginUseCase>();
   }
 
   void _handleLogin() async {

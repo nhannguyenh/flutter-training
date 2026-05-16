@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shopping_app/data/models/user_model.dart';
 
 abstract class IAuthRemoteDatasource {
   Future<UserModel> login(String username, String password);
 }
 
+@LazySingleton(as: IAuthRemoteDatasource)
 class AuthRemoteDatasource implements IAuthRemoteDatasource {
   final Dio dio;
 
