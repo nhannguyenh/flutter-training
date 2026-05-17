@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shopping_app/presentation/routes/routes.dart';
 
 import '../configs/app_colors.dart';
 import '../configs/app_font_sizes.dart';
@@ -93,7 +94,15 @@ class ProductCatalogScreen extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Shop"),
           BottomNavigationBarItem(icon: Icon(Icons.category_outlined), label: "Categories"),
           BottomNavigationBarItem(icon: Icon(Icons.favorite_outline), label: "Saved"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: "Profile")
+          BottomNavigationBarItem(
+            label: "Profile",
+            icon: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRouter.userProfileRoute);
+              },
+              icon: Icon(Icons.person_2_outlined)
+            )
+          )
         ]
       ),
     );
