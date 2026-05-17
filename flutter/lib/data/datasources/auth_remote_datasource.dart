@@ -26,7 +26,7 @@ class AuthRemoteDatasource implements IAuthRemoteDatasource {
         throw Exception("Login failed");
       }
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message'] ?? "Server connection issue");
+      throw Exception(e.response?.data["error"]["message"] ?? "Server connection issue");
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/presentation/routes/routes.dart';
-import 'package:shopping_app/presentation/screens/login_screen.dart';
+import 'package:shopping_app/presentation/screens/login/login_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
