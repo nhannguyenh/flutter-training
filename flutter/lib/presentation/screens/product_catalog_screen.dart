@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/presentation/routes/routes.dart';
 
 import '../configs/app_colors.dart';
 import '../configs/app_font_sizes.dart';
+import '../routes/routes.dart';
 
-class ProductCatalogScreen extends StatelessWidget {
+class ProductCatalogScreen extends StatefulWidget {
   const ProductCatalogScreen({super.key});
 
+  @override
+  State<ProductCatalogScreen> createState() => _ProductCatalogScreenState();
+}
+
+class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,23 +92,24 @@ class ProductCatalogScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: Colors.grey,
         unselectedLabelStyle: TextStyle(color: Colors.grey),
+        onTap: (index) {
+          if (index == 3) {
+            Navigator.pushNamed(context, AppRouter.userProfileRoute);
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }
+        },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Shop"),
           BottomNavigationBarItem(icon: Icon(Icons.category_outlined), label: "Categories"),
           BottomNavigationBarItem(icon: Icon(Icons.favorite_outline), label: "Saved"),
-          BottomNavigationBarItem(
-            label: "Profile",
-            icon: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRouter.userProfileRoute);
-              },
-              icon: Icon(Icons.person_2_outlined)
-            )
-          )
+          BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: "Profile")
         ]
       ),
     );

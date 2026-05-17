@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/di/injector.dart';
 import 'package:shopping_app/presentation/screens/login/login_screen.dart';
 import 'package:shopping_app/presentation/screens/product_catalog_screen.dart';
-import 'package:shopping_app/presentation/screens/profile_screen.dart';
+import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_bloc.dart';
+import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_event.dart';
+import 'package:shopping_app/presentation/screens/profile/profile_screen.dart';
 
 abstract class AppRouter {
   static const String loginRoute = "/login";
@@ -11,7 +15,10 @@ abstract class AppRouter {
   static Map<String, Widget Function(BuildContext)> routes = {
     loginRoute: (context) => LoginScreen(),
     productRoute: (context) => ProductCatalogScreen(),
-    userProfileRoute: (context) => ProfileScreen(),
+    userProfileRoute: (context) => BlocProvider<UserProfileBloc>(
+      create: (_) => injector<UserProfileBloc>()..add(FetchUserProfileData()),
+      child: ProfileScreen(),
+    ),
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,9 +37,10 @@ abstract class AppRouter {
         );
       case AppRouter.userProfileRoute:
         return MaterialPageRoute(
-          builder: (context) {
-            return ProfileScreen();
-          }
+          builder: (_) => BlocProvider<UserProfileBloc>(
+            create: (_) => injector<UserProfileBloc>()..add(FetchUserProfileData()),
+            child: const ProfileScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(
