@@ -14,12 +14,13 @@ class UserProfileModel {
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
+    final data = json["data"] as Map<String, dynamic>;
     return UserProfileModel(
-      username: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      age: 0,
+      username: data["username"] ?? "",
+      firstName: data["firstName"] ?? "",
+      lastName: data["lastName"] ?? "",
+      email: data["email"] ?? "",
+      age: data["age"] ?? 0,
     );
   }
 }
