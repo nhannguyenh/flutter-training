@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../configs/app_colors.dart';
-import '../configs/app_font_sizes.dart';
+import '../../configs/app_colors.dart';
+import '../../configs/app_font_sizes.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,7 +224,7 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Order History
             _buildActionList(
               EdgeInsets.only(left: 16, right: 16),

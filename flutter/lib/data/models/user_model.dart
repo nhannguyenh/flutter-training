@@ -13,6 +13,6 @@ class UserModel extends User {
     return UserModel(
       username: user["username"] ?? "",
       token: data["token"] ?? "",
-    );;
+    );
   }
 }
