@@ -28,7 +28,14 @@ class ProfileScreen extends StatelessWidget {
         currentIndex: 2,
         selectedItemColor: AppColors.primaryColor,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.home_outlined))
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
         ],
