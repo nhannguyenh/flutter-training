@@ -1,4 +1,4 @@
-import 'package:shopping_app/domain/entities/user.dart';
+import 'package:shopping_app/data/models/user_model.dart';
 
 abstract class AuthState {}
 
@@ -7,7 +7,7 @@ class LoginInitial extends AuthState {}
 class LoginLoading extends AuthState {}
 
 class LoginSuccess extends AuthState {
-  final User user;
+  final UserModel user;
   LoginSuccess(this.user);
 }
 

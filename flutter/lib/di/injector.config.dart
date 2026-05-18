@@ -55,11 +55,11 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i558.FlutterSecureStorage>(() => registerModule.storage);
-    gh.lazySingleton<_i11.IAuthLocalDatasource>(
-      () => _i11.AuthLocalDatasource(gh<_i558.FlutterSecureStorage>()),
+    gh.lazySingleton<_i11.IAuthLocalDataSource>(
+      () => _i11.AuthLocalDataSource(gh<_i558.FlutterSecureStorage>()),
     );
     gh.factory<_i383.AuthInterceptor>(
-      () => _i383.AuthInterceptor(gh<_i11.IAuthLocalDatasource>()),
+      () => _i383.AuthInterceptor(gh<_i11.IAuthLocalDataSource>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i383.AuthInterceptor>()),
@@ -70,8 +70,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i291.IUserRemoteDataSource>(
       () => _i291.UserRemoteDataSource(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i891.IAuthRemoteDatasource>(
-      () => _i891.AuthRemoteDatasource(gh<_i361.Dio>()),
+    gh.lazySingleton<_i891.IAuthRemoteDataSource>(
+      () => _i891.AuthRemoteDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i90.IAuthRepository>(
+      () => _i96.AuthRepository(
+        remoteDataSource: gh<_i891.IAuthRemoteDataSource>(),
+        localDataSource: gh<_i11.IAuthLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i826.IUserRepository>(
       () => _i549.UserRepository(
@@ -81,12 +87,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i514.IProductRepository>(
       () => _i715.ProductRepository(
         remoteDataSource: gh<_i9.IProductRemoteDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i90.IAuthRepository>(
-      () => _i96.AuthRepository(
-        remoteDatasource: gh<_i891.IAuthRemoteDatasource>(),
-        localDatasource: gh<_i11.IAuthLocalDatasource>(),
       ),
     );
     gh.factory<_i1020.UserProfileUseCase>(

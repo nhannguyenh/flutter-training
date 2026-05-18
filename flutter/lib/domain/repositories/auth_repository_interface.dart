@@ -1,6 +1,6 @@
-import 'package:shopping_app/domain/entities/user.dart';
+import 'package:shopping_app/data/models/user_model.dart';
 
 abstract class IAuthRepository {
-  Future<User> login(String username, String password);
+  Future<UserModel> login(String username, String password);
   Future<void> logout();
 }

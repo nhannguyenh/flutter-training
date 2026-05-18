@@ -5,9 +5,9 @@ import '../../data/datasources/auth_local_datasource.dart';
 
 @injectable
 class AuthInterceptor extends Interceptor {
-  final IAuthLocalDatasource _localDatasource;
+  final IAuthLocalDataSource _localDataSource;
 
-  AuthInterceptor(this._localDatasource);
+  AuthInterceptor(this._localDataSource);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -15,7 +15,7 @@ class AuthInterceptor extends Interceptor {
       return handler.next(options);
     }
 
-    final token = await _localDatasource.getToken();
+    final token = await _localDataSource.getToken();
 
     if (token != null) {
       options.headers["Authorization"] = "Bearer $token";

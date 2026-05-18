@@ -1,18 +1,18 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class IAuthLocalDatasource {
+abstract class IAuthLocalDataSource {
   Future<void> saveToken(String token);
   Future<String?> getToken();
   Future<void> clearToken();
 }
 
-@LazySingleton(as: IAuthLocalDatasource)
-class AuthLocalDatasource implements IAuthLocalDatasource {
+@LazySingleton(as: IAuthLocalDataSource)
+class AuthLocalDataSource implements IAuthLocalDataSource {
   final FlutterSecureStorage storage;
   final String tokenKey = "jwtToken";
 
-  AuthLocalDatasource(this.storage);
+  AuthLocalDataSource(this.storage);
 
   @override
   Future<String?> getToken() async {
