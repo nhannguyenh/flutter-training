@@ -1,8 +1,10 @@
-abstract class LoginEvent {}
+abstract class AuthEvent {}
 
-class LoginSubmitted extends LoginEvent {
+class LoginSubmitted extends AuthEvent {
   final String username;
   final String password;
 
   LoginSubmitted({required this.username, required this.password});
 }
+
+class LogoutRequested extends AuthEvent {}

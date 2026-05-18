@@ -25,4 +25,9 @@ class AuthRepository implements IAuthRepository{
     return userModel;
   }
 
+  @override
+  Future<void> logout() async {
+    await localDatasource.clearToken();
+  }
+
 }
