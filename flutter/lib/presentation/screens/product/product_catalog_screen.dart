@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/data/models/product_model.dart';
 import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_bloc.dart';
 import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_state.dart';
 
@@ -37,8 +38,18 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
       ),
       body: BlocBuilder<ProductCatalogBloc, ProductCatalogState>(
         builder: (context, state) {
+          if (state is ProductCatalogLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primaryColor),
+            );
+          }
+
+          if (state is ProductCatalogError) {
+            print(state.errorMessage);
+          }
+
           if (state is ProductCatalogLoaded) {
-            final product = state.productModels;
+            final products = state.productModels;
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -89,8 +100,8 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
                       ),
-                      itemCount: 4,
-                      itemBuilder: (context, index) => _buildProductCard(),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) => _buildProductCard(products[index])
                     ),
                   ],
                 ),
@@ -144,7 +155,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
     );
   }
 
-  Widget _buildProductCard() {
+  Widget _buildProductCard(ProductModel product) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,7 +166,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    "https://placehold.net/400x400.png",
+                    product.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -176,7 +187,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
         Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text(
-            "Glow Essentials Kit",
+            product.name,
             style: TextStyle(
               fontSize: AppFontSizes.fontSize_14,
               fontWeight: FontWeight.w500
@@ -193,7 +204,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                "\$45.00",
+                "\$${product.price.toStringAsFixed(2)}",
                 style: TextStyle(
                   fontSize: AppFontSizes.fontSize_18,
                   fontWeight: FontWeight.bold

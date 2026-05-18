@@ -5,7 +5,7 @@ import 'package:shopping_app/domain/repositories/product_repository_interface.da
 
 @LazySingleton(as: IProductRepository)
 class ProductRepository implements IProductRepository {
-  final ProductRemoteDataSource remoteDataSource;
+  final IProductRemoteDataSource remoteDataSource;
 
   ProductRepository({required this.remoteDataSource});
 

@@ -14,13 +14,12 @@ class ProductModel {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-    final data = json["data"] as Map<String, dynamic>;
     return ProductModel(
-      id: data["id"],
-      name: data["name"] ?? "",
-      description: data["description"] ?? "",
-      image: data["image"] ?? "",
-      price: data["price"] ?? 0,
+      id: json["id"],
+      name: json["name"] ?? "",
+      description: json["description"] ?? "",
+      image: json["image"] ?? "",
+      price: (json["price"] ?? 0).toDouble(),
     );
   }
 

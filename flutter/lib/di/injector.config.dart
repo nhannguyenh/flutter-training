@@ -57,19 +57,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i11.IAuthLocalDatasource>(
       () => _i11.AuthLocalDatasource(gh<_i558.FlutterSecureStorage>()),
     );
-    gh.lazySingleton<_i514.IProductRepository>(
-      () => _i715.ProductRepository(
-        remoteDataSource: gh<_i9.ProductRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i834.ProductCategoryUseCase>(
-      () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
-    );
     gh.factory<_i383.AuthInterceptor>(
       () => _i383.AuthInterceptor(gh<_i11.IAuthLocalDatasource>()),
-    );
-    gh.factory<_i514.ProductCatalogBloc>(
-      () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i383.AuthInterceptor>()),
@@ -88,6 +77,11 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i291.IUserRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i514.IProductRepository>(
+      () => _i715.ProductRepository(
+        remoteDataSource: gh<_i9.IProductRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i90.IAuthRepository>(
       () => _i96.AuthRepository(
         remoteDatasource: gh<_i891.IAuthRemoteDatasource>(),
@@ -100,11 +94,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i983.LoginUseCase>(
       () => _i983.LoginUseCase(gh<_i90.IAuthRepository>()),
     );
+    gh.factory<_i834.ProductCategoryUseCase>(
+      () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
+    );
     gh.factory<_i952.UserProfileBloc>(
       () => _i952.UserProfileBloc(gh<_i1020.UserProfileUseCase>()),
     );
     gh.factory<_i556.LoginBloc>(
       () => _i556.LoginBloc(gh<_i983.LoginUseCase>()),
+    );
+    gh.factory<_i514.ProductCatalogBloc>(
+      () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),
     );
     return this;
   }
