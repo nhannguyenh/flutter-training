@@ -17,21 +17,31 @@ import 'package:shopping_app/data/datasources/auth_local_datasource.dart'
     as _i11;
 import 'package:shopping_app/data/datasources/auth_remote_datasource.dart'
     as _i891;
+import 'package:shopping_app/data/datasources/product_remote_datasource.dart'
+    as _i9;
 import 'package:shopping_app/data/datasources/user_remote_datasource.dart'
     as _i291;
 import 'package:shopping_app/data/repositories/auth_repository.dart' as _i96;
+import 'package:shopping_app/data/repositories/product_repository.dart'
+    as _i715;
 import 'package:shopping_app/data/repositories/user_repository.dart' as _i549;
 import 'package:shopping_app/di/app_module.dart' as _i901;
 import 'package:shopping_app/di/interceptors/auth_interceptor.dart' as _i383;
 import 'package:shopping_app/domain/repositories/auth_repository_interface.dart'
     as _i90;
+import 'package:shopping_app/domain/repositories/product_repository_interface.dart'
+    as _i514;
 import 'package:shopping_app/domain/repositories/user_repository_interface.dart'
     as _i826;
 import 'package:shopping_app/domain/usecases/login_usecase.dart' as _i983;
+import 'package:shopping_app/domain/usecases/product_category_usecase.dart'
+    as _i834;
 import 'package:shopping_app/domain/usecases/user_profile_usecase.dart'
     as _i1020;
 import 'package:shopping_app/presentation/screens/login/bloc/login_bloc.dart'
     as _i556;
+import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_bloc.dart'
+    as _i514;
 import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_bloc.dart'
     as _i952;
 
@@ -47,11 +57,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i11.IAuthLocalDatasource>(
       () => _i11.AuthLocalDatasource(gh<_i558.FlutterSecureStorage>()),
     );
+    gh.lazySingleton<_i514.IProductRepository>(
+      () => _i715.ProductRepository(
+        remoteDataSource: gh<_i9.ProductRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i834.ProductCategoryUseCase>(
+      () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
+    );
     gh.factory<_i383.AuthInterceptor>(
       () => _i383.AuthInterceptor(gh<_i11.IAuthLocalDatasource>()),
     );
+    gh.factory<_i514.ProductCatalogBloc>(
+      () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),
+    );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i383.AuthInterceptor>()),
+    );
+    gh.lazySingleton<_i9.IProductRemoteDataSource>(
+      () => _i9.ProductRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i291.IUserRemoteDataSource>(
       () => _i291.UserRemoteDataSource(gh<_i361.Dio>()),
