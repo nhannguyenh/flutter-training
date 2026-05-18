@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/di/injector.dart';
 import 'package:shopping_app/presentation/screens/login/bloc/login_bloc.dart';
 import 'package:shopping_app/presentation/screens/login/login_screen.dart';
-import 'package:shopping_app/presentation/screens/product_catalog_screen.dart';
+import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_bloc.dart';
+import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_event.dart';
+import 'package:shopping_app/presentation/screens/product/product_catalog_screen.dart';
 import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_bloc.dart';
 import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_event.dart';
 import 'package:shopping_app/presentation/screens/profile/profile_screen.dart';
@@ -18,7 +20,10 @@ abstract class AppRouter {
       create: (_) => injector<LoginBloc>(),
       child: LoginScreen(),
     ),
-    productRoute: (context) => ProductCatalogScreen(),
+    productRoute: (context) => BlocProvider<ProductCatalogBloc>(
+      create: (_) => injector<ProductCatalogBloc>()..add(FetchProductCatalogData()),
+      child: ProductCatalogScreen(),
+    ),
     userProfileRoute: (context) => BlocProvider<UserProfileBloc>(
       create: (_) => injector<UserProfileBloc>()..add(FetchUserProfileData()),
       child: ProfileScreen(),
@@ -36,9 +41,10 @@ abstract class AppRouter {
         );
       case AppRouter.productRoute:
         return MaterialPageRoute(
-          builder: (context) {
-            return ProductCatalogScreen();
-          },
+          builder: (_) => BlocProvider(
+            create: (_) => injector<ProductCatalogBloc>()..add(FetchProductCatalogData()),
+            child: ProductCatalogScreen(),
+          )
         );
       case AppRouter.userProfileRoute:
         return MaterialPageRoute(

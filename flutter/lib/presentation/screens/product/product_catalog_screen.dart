@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/data/models/product_model.dart';
+import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_bloc.dart';
+import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_state.dart';
 
-import '../configs/app_colors.dart';
-import '../configs/app_font_sizes.dart';
-import '../routes/routes.dart';
+import '../../configs/app_colors.dart';
+import '../../configs/app_font_sizes.dart';
+import '../../routes/routes.dart';
 
 class ProductCatalogScreen extends StatefulWidget {
   const ProductCatalogScreen({super.key});
@@ -20,6 +24,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: Text(
           "Discover",
           style: TextStyle(
@@ -32,62 +37,80 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
           IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart_outlined))
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Search
-              TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(CupertinoIcons.search),
-                  prefixIconColor: Colors.grey,
-                  hintText: "Search products, brands...",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none
-                  ),
-                  fillColor: Colors.grey.shade100,
-                  filled: true
-                ),
-              ),
+      body: BlocBuilder<ProductCatalogBloc, ProductCatalogState>(
+        builder: (context, state) {
+          if (state is ProductCatalogLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primaryColor),
+            );
+          }
 
-              SizedBox(height: 16),
+          if (state is ProductCatalogError) {
+            print(state.errorMessage);
+          }
 
-              // Product Catalog
-              SizedBox(
-                height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+          if (state is ProductCatalogLoaded) {
+            final products = state.productModels;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildProductCatalogItem("All Items", true),
-                    _buildProductCatalogItem("Electronics", false),
-                    _buildProductCatalogItem("Fashion", false),
-                    _buildProductCatalogItem("Beauty", false)
+                    // Search
+                    TextField(
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(CupertinoIcons.search),
+                          prefixIconColor: Colors.grey,
+                          hintText: "Search products, brands...",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none
+                          ),
+                          fillColor: Colors.grey.shade100,
+                          filled: true
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    // Product Catalog
+                    SizedBox(
+                      height: 40,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          _buildProductCatalogItem("All Items", true),
+                          _buildProductCatalogItem("Electronics", false),
+                          _buildProductCatalogItem("Fashion", false),
+                          _buildProductCatalogItem("Beauty", false)
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 32),
+
+                    // Product List
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.7,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) => _buildProductCard(products[index])
+                    ),
                   ],
                 ),
               ),
-
-              SizedBox(height: 32),
-
-              // Product List
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) => _buildProductCard(),
-              ),
-            ],
-          ),
-        ),
+            );
+          }
+          return Center();
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -133,7 +156,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
     );
   }
 
-  Widget _buildProductCard() {
+  Widget _buildProductCard(ProductModel product) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -144,7 +167,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    "https://placehold.net/400x400.png",
+                    product.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -165,7 +188,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
         Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text(
-            "Glow Essentials Kit",
+            product.name,
             style: TextStyle(
               fontSize: AppFontSizes.fontSize_14,
               fontWeight: FontWeight.w500
@@ -182,7 +205,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                "\$45.00",
+                "\$${product.price.toStringAsFixed(2)}",
                 style: TextStyle(
                   fontSize: AppFontSizes.fontSize_18,
                   fontWeight: FontWeight.bold

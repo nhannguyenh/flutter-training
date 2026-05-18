@@ -139,7 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: BlocConsumer<LoginBloc, LoginState>(
                           listener: (context, state) {
                             if (state is LoginSuccess) {
-                              Navigator.pushReplacementNamed(context, AppRouter.productRoute);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRouter.productRoute,
+                                (route) => false
+                              );
                             }
 
                             if (state is LoginLoading) {
