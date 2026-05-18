@@ -13,13 +13,13 @@ class ProductModel {
     required this.price,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
+  factory ProductModel.fromJson(Map<String, dynamic> item) {
     return ProductModel(
-      id: json["id"],
-      name: json["name"] ?? "",
-      description: json["description"] ?? "",
-      image: json["image"] ?? "",
-      price: (json["price"] ?? 0).toDouble(),
+      id: item["id"],
+      name: item["name"] ?? "",
+      description: item["description"] ?? "",
+      image: item["image"] ?? "",
+      price: (item["price"] ?? 0).toDouble(),
     );
   }
 
