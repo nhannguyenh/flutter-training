@@ -24,6 +24,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: Text(
           "Discover",
           style: TextStyle(
