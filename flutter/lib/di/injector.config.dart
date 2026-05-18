@@ -34,12 +34,13 @@ import 'package:shopping_app/domain/repositories/product_repository_interface.da
 import 'package:shopping_app/domain/repositories/user_repository_interface.dart'
     as _i826;
 import 'package:shopping_app/domain/usecases/login_usecase.dart' as _i983;
+import 'package:shopping_app/domain/usecases/logout_usecase.dart' as _i701;
 import 'package:shopping_app/domain/usecases/product_category_usecase.dart'
     as _i834;
 import 'package:shopping_app/domain/usecases/user_profile_usecase.dart'
     as _i1020;
-import 'package:shopping_app/presentation/screens/login/bloc/login_bloc.dart'
-    as _i556;
+import 'package:shopping_app/presentation/screens/auth/bloc/auth_bloc.dart'
+    as _i328;
 import 'package:shopping_app/presentation/screens/product/bloc/product_catalog_bloc.dart'
     as _i514;
 import 'package:shopping_app/presentation/screens/profile/bloc/user_profile_bloc.dart'
@@ -94,14 +95,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i983.LoginUseCase>(
       () => _i983.LoginUseCase(gh<_i90.IAuthRepository>()),
     );
+    gh.factory<_i701.LogoutUseCase>(
+      () => _i701.LogoutUseCase(gh<_i90.IAuthRepository>()),
+    );
     gh.factory<_i834.ProductCategoryUseCase>(
       () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
     );
+    gh.factory<_i328.AuthBloc>(
+      () => _i328.AuthBloc(gh<_i983.LoginUseCase>(), gh<_i701.LogoutUseCase>()),
+    );
     gh.factory<_i952.UserProfileBloc>(
       () => _i952.UserProfileBloc(gh<_i1020.UserProfileUseCase>()),
-    );
-    gh.factory<_i556.LoginBloc>(
-      () => _i556.LoginBloc(gh<_i983.LoginUseCase>()),
     );
     gh.factory<_i514.ProductCatalogBloc>(
       () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),

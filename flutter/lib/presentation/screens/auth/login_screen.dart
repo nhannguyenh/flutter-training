@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/presentation/screens/login/bloc/login_bloc.dart';
-import 'package:shopping_app/presentation/screens/login/bloc/login_event.dart';
-import 'package:shopping_app/presentation/screens/login/bloc/login_state.dart';
+import 'package:shopping_app/presentation/screens/auth/bloc/auth_bloc.dart';
+import 'package:shopping_app/presentation/screens/auth/bloc/auth_state.dart';
 
 import '../../configs/app_colors.dart';
 import '../../configs/app_font_sizes.dart';
 import '../../routes/routes.dart';
+import 'bloc/auth_event.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: double.infinity,
                         height: 48,
-                        child: BlocConsumer<LoginBloc, LoginState>(
+                        child: BlocConsumer<AuthBloc, AuthState>(
                           listener: (context, state) {
                             if (state is LoginSuccess) {
                               Navigator.pushNamedAndRemoveUntil(
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context, state) {
                             return ElevatedButton(
                               onPressed: (){
-                                context.read<LoginBloc>().add(
+                                context.read<AuthBloc>().add(
                                   LoginSubmitted(
                                     username: _usernameController.text,
                                     password: _passwordController.text

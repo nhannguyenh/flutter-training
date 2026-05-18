@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 abstract class IAuthLocalDatasource {
   Future<void> saveToken(String token);
   Future<String?> getToken();
+  Future<void> clearToken();
 }
 
 @LazySingleton(as: IAuthLocalDatasource)
@@ -21,6 +22,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<void> saveToken(String token) async {
     await storage.write(key: tokenKey, value: token);
+  }
+
+  @override
+  Future<void> clearToken() async {
+    await storage.delete(key: tokenKey);
   }
 
 }
