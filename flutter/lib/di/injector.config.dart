@@ -21,6 +21,7 @@ import 'package:shopping_app/data/datasources/product_remote_datasource.dart'
     as _i9;
 import 'package:shopping_app/data/datasources/user_remote_datasource.dart'
     as _i291;
+import 'package:shopping_app/data/helpers/db_helper.dart' as _i443;
 import 'package:shopping_app/data/repositories/auth_repository.dart' as _i96;
 import 'package:shopping_app/data/repositories/product_repository.dart'
     as _i715;
@@ -54,6 +55,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
+    gh.lazySingleton<_i443.DbHelper>(() => _i443.DbHelper());
     gh.lazySingleton<_i558.FlutterSecureStorage>(() => registerModule.storage);
     gh.lazySingleton<_i11.IAuthLocalDataSource>(
       () => _i11.AuthLocalDataSource(gh<_i558.FlutterSecureStorage>()),
@@ -73,24 +75,32 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i891.IAuthRemoteDataSource>(
       () => _i891.AuthRemoteDataSource(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i90.IAuthRepository>(
-      () => _i96.AuthRepository(
-        remoteDataSource: gh<_i891.IAuthRemoteDataSource>(),
-        localDataSource: gh<_i11.IAuthLocalDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i826.IUserRepository>(
-      () => _i549.UserRepository(
-        remoteDataSource: gh<_i291.IUserRemoteDataSource>(),
-      ),
-    );
     gh.lazySingleton<_i514.IProductRepository>(
       () => _i715.ProductRepository(
         remoteDataSource: gh<_i9.IProductRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i826.IUserRepository>(
+      () => _i549.UserRepository(
+        remoteDataSource: gh<_i291.IUserRemoteDataSource>(),
+        dbHelper: gh<_i443.DbHelper>(),
+      ),
+    );
     gh.factory<_i1020.UserProfileUseCase>(
       () => _i1020.UserProfileUseCase(gh<_i826.IUserRepository>()),
+    );
+    gh.lazySingleton<_i90.IAuthRepository>(
+      () => _i96.AuthRepository(
+        remoteDataSource: gh<_i891.IAuthRemoteDataSource>(),
+        localDataSource: gh<_i11.IAuthLocalDataSource>(),
+        dbHelper: gh<_i443.DbHelper>(),
+      ),
+    );
+    gh.factory<_i834.ProductCategoryUseCase>(
+      () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
+    );
+    gh.factory<_i952.UserProfileBloc>(
+      () => _i952.UserProfileBloc(gh<_i1020.UserProfileUseCase>()),
     );
     gh.factory<_i983.LoginUseCase>(
       () => _i983.LoginUseCase(gh<_i90.IAuthRepository>()),
@@ -98,17 +108,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i701.LogoutUseCase>(
       () => _i701.LogoutUseCase(gh<_i90.IAuthRepository>()),
     );
-    gh.factory<_i834.ProductCategoryUseCase>(
-      () => _i834.ProductCategoryUseCase(gh<_i514.IProductRepository>()),
+    gh.factory<_i514.ProductCatalogBloc>(
+      () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),
     );
     gh.factory<_i328.AuthBloc>(
       () => _i328.AuthBloc(gh<_i983.LoginUseCase>(), gh<_i701.LogoutUseCase>()),
-    );
-    gh.factory<_i952.UserProfileBloc>(
-      () => _i952.UserProfileBloc(gh<_i1020.UserProfileUseCase>()),
-    );
-    gh.factory<_i514.ProductCatalogBloc>(
-      () => _i514.ProductCatalogBloc(gh<_i834.ProductCategoryUseCase>()),
     );
     return this;
   }

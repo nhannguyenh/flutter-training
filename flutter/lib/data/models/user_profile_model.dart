@@ -23,4 +23,24 @@ class UserProfileModel {
       age: data["age"] ?? 0,
     );
   }
+
+  factory UserProfileModel.fromMap(Map<String, dynamic> map) {
+    return UserProfileModel(
+      username: map['username'] as String,
+      firstName: map['firstName'] as String,
+      lastName: map['lastName'] as String,
+      email: map['email'] as String,
+      age: map['age'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "username": username,
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "age": age
+    };
+  }
 }

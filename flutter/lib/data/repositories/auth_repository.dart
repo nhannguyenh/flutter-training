@@ -4,14 +4,18 @@ import 'package:shopping_app/data/datasources/auth_remote_datasource.dart';
 import 'package:shopping_app/data/models/user_model.dart';
 import 'package:shopping_app/domain/repositories/auth_repository_interface.dart';
 
+import '../helpers/db_helper.dart';
+
 @LazySingleton(as: IAuthRepository)
 class AuthRepository implements IAuthRepository{
   final IAuthRemoteDataSource remoteDataSource;
   final IAuthLocalDataSource localDataSource;
+  final DbHelper dbHelper;
 
   AuthRepository({
     required this.remoteDataSource,
-    required this.localDataSource
+    required this.localDataSource,
+    required this.dbHelper
   });
 
   @override
@@ -27,6 +31,7 @@ class AuthRepository implements IAuthRepository{
   @override
   Future<void> logout() async {
     await localDataSource.clearToken();
+    await dbHelper.clearUserProfile();
   }
 
 }
