@@ -1,81 +1,153 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:shopping_app/data/datasources/auth_remote_datasource.dart';
+import "package:dio/dio.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
+import "package:shopping_app/data/datasources/auth_remote_datasource.dart";
+import "package:shopping_app/data/models/user_model.dart";
 
 @GenerateMocks([Dio])
-import 'auth_remote_datasource_test.mocks.dart';
+import "auth_remote_datasource_test.mocks.dart";
 
 void main() {
-  late AuthRemoteDataSource dataSource;
+  late AuthRemoteDataSource authRemoteDataSource;
   late MockDio mockDio;
 
   setUp(() {
     mockDio = MockDio();
-    dataSource = AuthRemoteDataSource(mockDio);
+    authRemoteDataSource = AuthRemoteDataSource(mockDio);
   });
 
-  group("AuthRemoteDataSource - Login", () {
-    const username = "test";
-    const password = "password123";
-    const path = "/login";
+  const username = "testuser";
+  const password = "password123";
+  const loginPath = "/login";
+  const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiamFja2llIiwiaWF0IjoxNzc5MjcwOTM4LCJleHAiOjE3NzkyNzQ1Mzh9.zMmtQG0xS6eS09P312naszziJPepWbf9FHFcsJx7cLY";
 
-    final tRequestData = {
-      "username": username,
-      "password": password,
-    };
+  final user = {
+    "data": {
+      "token": token,
+      "user": {"username": username},
+    },
+  };
 
-    final response = {
-      "id": 1,
-      "username": "test",
-      "email": "test@example.com",
-    };
+  group("login", () {
+    test("should return UserModel when the response code is 200", () async {
+      when(
+        mockDio.post(
+          loginPath,
+          data: {"username": username, "password": password},
+        ),
+      ).thenAnswer(
+        (_) async => Response(
+          data: user,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: loginPath),
+        ),
+      );
 
-    test("should throw Exception when occur DioException badResponse", () async {
-      when(mockDio.post(path, data: tRequestData)).thenThrow(
-        DioException(
-          requestOptions: RequestOptions(path: path),
-          type: DioExceptionType.badResponse,
+      final result = await authRemoteDataSource.login(username, password);
+
+      expect(result, isA<UserModel>());
+      expect(result.username, username);
+      expect(result.token, token);
+      verify(
+        mockDio.post(
+          loginPath,
+          data: {"username": username, "password": password},
+        ),
+      ).called(1);
+    });
+
+    test(
+      "should throw an Exception when the response code is not 200",
+      () async {
+        when(
+          mockDio.post(
+            loginPath,
+            data: {"username": username, "password": password},
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            data: "Something went wrong",
+            statusCode: 400,
+            requestOptions: RequestOptions(path: loginPath),
+          ),
+        );
+
+        expect(
+          () => authRemoteDataSource.login(username, password),
+          throwsA(
+            isA<Exception>().having(
+              (e) => e.toString(),
+              "message",
+              "Exception: Login failed",
+            ),
+          ),
+        );
+      },
+    );
+
+    test(
+      "should throw Exception with API error message when DioException occurs",
+      () async {
+        final dioException = DioException(
+          requestOptions: RequestOptions(path: loginPath),
           response: Response(
-            requestOptions: RequestOptions(path: path),
             statusCode: 401,
             data: {
-              "error": {
-                "message": "Invalid credentials"
-              }
+              "error": {"message": "Invalid credentials"},
             },
+            requestOptions: RequestOptions(path: loginPath),
           ),
-        ),
-      );
+          type: DioExceptionType.badResponse,
+        );
 
-      final call = dataSource.login(username, password);
+        when(
+          mockDio.post(
+            loginPath,
+            data: {"username": username, "password": password},
+          ),
+        ).thenThrow(dioException);
 
-      expect(() => call,
-        throwsA(isA<Exception>().having((e) => e.toString(),
-          "message",
-          contains("Invalid credentials"),
-        )),
-      );
-    });
+        expect(
+          () => authRemoteDataSource.login(username, password),
+          throwsA(
+            isA<Exception>().having(
+              (e) => e.toString(),
+              "message",
+              "Exception: Invalid credentials",
+            ),
+          ),
+        );
+      },
+    );
 
-    test("should throw Exception('Server connection issue') when server has connection issue", () async {
-      when(mockDio.post(path, data: tRequestData)).thenThrow(
-        DioException(
-          requestOptions: RequestOptions(path: path),
+    test(
+      "should throw default Exception message when DioException occurs without backend message",
+      () async {
+        final dioException = DioException(
+          requestOptions: RequestOptions(path: loginPath),
           type: DioExceptionType.connectionTimeout,
-          response: null,
-        ),
-      );
+        );
 
-      final call = dataSource.login(username, password);
+        when(
+          mockDio.post(
+            loginPath,
+            data: {"username": username, "password": password},
+          ),
+        ).thenThrow(dioException);
 
-      expect(() => call,
-        throwsA(isA<Exception>().having((e) => e.toString(),
-          "message",
-          contains("Server connection issue"),
-        )),
-      );
-    });
+        expect(
+          () => authRemoteDataSource.login(username, password),
+          throwsA(
+            isA<Exception>().having(
+              (e) => e.toString(),
+              "message",
+              "Exception: Server connection issue",
+            ),
+          ),
+        );
+      },
+    );
   });
 }
